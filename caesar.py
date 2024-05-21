@@ -22,22 +22,41 @@ def decrypt(ciphertext, shift):
     return plaintext
 
 def brute_force(ciphertext):
-    ciphertext = ciphertext.upper()
-    for i in range(1, 26):
+    ciphertext = ciphertext.upper().strip()
+    returntext = ""
+    for i in range(25, 0, -1):
         plaintext = ''
         for x in ciphertext:
             ascii_num = ord(x)
             shifted = ascii_num + i
-            if shifted > ord('Z'): shifted -= 26
+            if shifted > ord('Z'):
+                shifted -= 26
             plaintext += chr(shifted)
-        print(plaintext)
+        returntext += f'Shift {26-i}: {plaintext}\n'
+    return returntext
 
-def main():
-    plaintext = "This is a sample text"
-    ciphertext = encrypt(plaintext, 4)
-    print("Ciphertext:", ciphertext, '\n')
-    print("Plaintext:", decrypt(ciphertext, 4), '\n')
-    print("Brute-force decryption: \n")
-    brute_force(ciphertext)
+def menu_select():
 
-main()
+    user_input = int(input("Choose an option:\n1) Encrypt\n2) Decrypt\n3) Brute Force Decrypt\n4) Quit\n"))
+    if user_input == 1:
+        plaintext = input("Enter plaintext: ")
+        shift = int(input("Enter shift amount: "))
+        shift = shift % 26
+        return encrypt(plaintext, shift)
+    elif user_input == 2:
+        ciphertext = input("Enter ciphertext: ")
+        shift = int(input("Enter shift amount: "))
+        shift = shift % 26
+        return decrypt(ciphertext, shift)
+    elif user_input == 3:
+        ciphertext = input("Enter ciphertext: ")
+        return brute_force(ciphertext)
+    elif user_input == 4:
+        print("Thanks for using my caesar cipher encoder/decoder!")
+        quit()
+    else:
+        return "Error: Invalid input"
+
+
+while True:
+    print(menu_select(), "\n")
